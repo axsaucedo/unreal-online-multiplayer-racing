@@ -42,22 +42,24 @@ private:
 	// Higher means more rolling resistance (kg/m)
 	UPROPERTY(EditAnywhere)
 	float RollingResistanceCoefficient = 0.015;
+	UPROPERTY(ReplicatedUsing = OnRep_ReplicatedTransform)
+	FTransform ReplicatedTransform;
 	UPROPERTY(Replicated)
-	FVector ReplicatedLocation;
-	UPROPERTY(Replicated)
-	FRotator ReplicatedRotation;
-
 	FVector Velocity;
+	UPROPERTY(Replicated)
 	float Throttle;
+	UPROPERTY(Replicated)
 	float SteeringThrow;
 
 	UFUNCTION(Server, Reliable, WithValidation)
 	void Server_MoveForward(float Value);
 	UFUNCTION(Server, Reliable, WithValidation)
 	void Server_MoveRight(float Value);
+	UFUNCTION()
+	void OnRep_ReplicatedTransform();
+
 	void MoveForward(float Value);
 	void MoveRight(float Value);
-
 	void ApplyRotation(float DeltaTime);
 	FVector GetAirResistance();
 	FVector GetRollingResistance();
