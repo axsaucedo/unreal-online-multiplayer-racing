@@ -85,7 +85,7 @@ private:
 	float SteeringThrow;
 	TArray<FGoKartMove> UnacknowledgedMoves;
 
-	void SimulateMove(FGoKartMove Move);
+	void SimulateMove(const FGoKartMove& Move);
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 	void ApplyRotation(float DeltaTime, float LastSteeringThow);
