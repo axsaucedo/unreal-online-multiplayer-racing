@@ -29,7 +29,22 @@ void UGoKartMovementComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	if (GetOwnerRole() == ROLE_AutonomousProxy || GetOwner()->GetRemoteRole() == ROLE_SimulatedProxy)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("CREATING MOVE"));
+		LastMove = CreateMove(DeltaTime);
+		UE_LOG(LogTemp, Warning, TEXT("SIMULATING MOVE"));
+		SimulateMove(LastMove);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Yep..."));
+	}
+}
+
+FGoKartMove UGoKartMovementComponent::GetLastMove()
+{
+	return LastMove;
 }
 
 FVector UGoKartMovementComponent::GetVelocity()
@@ -42,9 +57,9 @@ void UGoKartMovementComponent::SetVelocity(FVector NewVelocity)
 	Velocity = NewVelocity;
 }
 
-void UGoKartMovementComponent::SetThrottle(float NewVelocity)
+void UGoKartMovementComponent::SetThrottle(float NewThrottle)
 {
-	Throttle = NewVelocity;
+	Throttle = NewThrottle;
 }
 
 void UGoKartMovementComponent::SetSteeringThrow(float NewSteeringThrow)
@@ -71,6 +86,8 @@ void UGoKartMovementComponent::SimulateMove(const FGoKartMove& Move)
 	FVector Acceleration = Force / Mass;
 
 	Velocity = Velocity + Acceleration * Move.DeltaTime;
+	UE_LOG(LogTemp, Warning, TEXT("Throttle %f"), Move.Throttle);
+	UE_LOG(LogTemp, Warning, TEXT("Velocity %s"), *Velocity.ToString());
 
 	ApplyRotation(Move.DeltaTime, Move.SteeringThrow);
 
@@ -106,6 +123,7 @@ void UGoKartMovementComponent::UpdateLocationFromVelocity(float DeltaTime)
 	FVector Translation = Velocity * DeltaTime * 100;
 
 	FHitResult Hit;
+	UE_LOG(LogTemp, Warning, TEXT("ADding world offset %s %s"), *GetOwner()->GetName(), *Translation.ToString());
 	GetOwner()->AddActorWorldOffset(Translation, true, &Hit);
 
 	if (Hit.IsValidBlockingHit())

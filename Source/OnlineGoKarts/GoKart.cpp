@@ -5,7 +5,6 @@
 #include "Engine/World.h"
 #include "Components/InputComponent.h"
 
-#include "GoKartMovementComponent.h"
 
 // Sets default values
 AGoKart::AGoKart()
@@ -36,20 +35,6 @@ void AGoKart::Tick(float DeltaTime)
 
 }
 
-void AGoKart::MoveForward(float Value)
-{
-	if (MovementComponent == nullptr) return;
-
-	MovementComponent->SetThrottle(Value);
-}
-
-void AGoKart::MoveRight(float Value)
-{
-	if (MovementComponent == nullptr) return;
-
-	MovementComponent->SetSteeringThrow(Value);
-}
-
 // Called to bind functionality to input
 void AGoKart::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -59,5 +44,20 @@ void AGoKart::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("MoveRight", this, &AGoKart::MoveRight);
 }
 
+void AGoKart::MoveForward(float Value)
+{
+	UE_LOG(LogTemp, Warning, TEXT("BEFORE MOVEMENT COMP"));
+	if (MovementComponent == nullptr) return;
+
+	UE_LOG(LogTemp, Warning, TEXT("MOVEMENT COMPONENT THROTTLE %f"), Value);
+	MovementComponent->SetThrottle(Value);
+}
+
+void AGoKart::MoveRight(float Value)
+{
+	if (MovementComponent == nullptr) return;
+
+	MovementComponent->SetSteeringThrow(Value);
+}
 
 

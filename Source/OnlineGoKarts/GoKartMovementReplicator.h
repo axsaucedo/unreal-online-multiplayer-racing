@@ -57,5 +57,6 @@ private:
 	TArray<struct FGoKartMove> UnacknowledgedMoves;
 
 	void ClearAcknoledgedMove(FGoKartMove LastMove);
+	void UpdateServerState(const FGoKartMove& Move);
 
 };

@@ -39,6 +39,7 @@ public:
 	void SetSteeringThrow(float NewSteeringThrow);
 	void SimulateMove(const FGoKartMove& Move);
 	FGoKartMove CreateMove(float DeltaTime);
+	FGoKartMove GetLastMove();
 
 protected:
 	// Called when the game starts
@@ -65,6 +66,7 @@ private:
 	FVector Velocity;
 	float Throttle;
 	float SteeringThrow;
+	FGoKartMove LastMove;
 
 	void ApplyRotation(float DeltaTime, float LastSteeringThow);
 	FVector GetAirResistance();

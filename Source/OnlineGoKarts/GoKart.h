@@ -32,6 +32,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
+
 	UPROPERTY(VisibleAnywhere)
 	UGoKartMovementComponent* MovementComponent;
 	UPROPERTY(VisibleAnywhere)
