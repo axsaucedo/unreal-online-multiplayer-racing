@@ -31,14 +31,8 @@ void UGoKartMovementComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 
 	if (GetOwnerRole() == ROLE_AutonomousProxy || GetOwner()->GetRemoteRole() == ROLE_SimulatedProxy)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("CREATING MOVE"));
 		LastMove = CreateMove(DeltaTime);
-		UE_LOG(LogTemp, Warning, TEXT("SIMULATING MOVE"));
 		SimulateMove(LastMove);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Yep..."));
 	}
 }
 
@@ -86,8 +80,6 @@ void UGoKartMovementComponent::SimulateMove(const FGoKartMove& Move)
 	FVector Acceleration = Force / Mass;
 
 	Velocity = Velocity + Acceleration * Move.DeltaTime;
-	UE_LOG(LogTemp, Warning, TEXT("Throttle %f"), Move.Throttle);
-	UE_LOG(LogTemp, Warning, TEXT("Velocity %s"), *Velocity.ToString());
 
 	ApplyRotation(Move.DeltaTime, Move.SteeringThrow);
 
@@ -114,6 +106,7 @@ void UGoKartMovementComponent::ApplyRotation(float DeltaTime, float LastSteering
 	FQuat RotationDelta(GetOwner()->GetActorUpVector(), RotationAngle);
 
 	Velocity = RotationDelta.RotateVector(Velocity);
+	UE_LOG(LogTemp, Warning, TEXT("Velocity %s"), *Velocity.ToString());
 
 	GetOwner()->AddActorWorldRotation(RotationDelta);
 }
@@ -123,7 +116,6 @@ void UGoKartMovementComponent::UpdateLocationFromVelocity(float DeltaTime)
 	FVector Translation = Velocity * DeltaTime * 100;
 
 	FHitResult Hit;
-	UE_LOG(LogTemp, Warning, TEXT("ADding world offset %s %s"), *GetOwner()->GetName(), *Translation.ToString());
 	GetOwner()->AddActorWorldOffset(Translation, true, &Hit);
 
 	if (Hit.IsValidBlockingHit())

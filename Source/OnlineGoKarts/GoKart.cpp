@@ -12,6 +12,7 @@ AGoKart::AGoKart()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	bReplicates = true;
+	//SetReplicateMovement(false);
 
 	MovementComponent = CreateDefaultSubobject<UGoKartMovementComponent>(TEXT("MovementComponent"));
 	MovementReplicator = CreateDefaultSubobject<UGoKartMovementReplicator>(TEXT("MovementReplicator"));
@@ -46,10 +47,8 @@ void AGoKart::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AGoKart::MoveForward(float Value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("BEFORE MOVEMENT COMP"));
 	if (MovementComponent == nullptr) return;
 
-	UE_LOG(LogTemp, Warning, TEXT("MOVEMENT COMPONENT THROTTLE %f"), Value);
 	MovementComponent->SetThrottle(Value);
 }
 

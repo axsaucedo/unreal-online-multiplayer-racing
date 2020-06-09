@@ -48,15 +48,27 @@ private:
 	FGoKartState ServerState;
 	UPROPERTY()
 	UGoKartMovementComponent* MovementComponent;
+	UPROPERTY()
+	USceneComponent* MeshOffsetRoot;
 
 	UFUNCTION(Server, Reliable, WithValidation)
 	void Server_SendMove(FGoKartMove Move);
 	UFUNCTION()
 	void OnRep_ServerState();
+	UFUNCTION(BlueprintCallable)
+	void SetMeshOffsetRoot(USceneComponent* Root) { MeshOffsetRoot = Root; }
 
 	TArray<struct FGoKartMove> UnacknowledgedMoves;
+	float ClientTimeSinceUpdate;
+	float ClientTimeBetweenLastUpdates;
+	FTransform ClientStartTransform;
+	FVector ClientStartVelocity;
+	float ClientSimulatedTime;
 
 	void ClearAcknoledgedMove(FGoKartMove LastMove);
 	void UpdateServerState(const FGoKartMove& Move);
+	void ClientTick(float DeltaTime);
+	void SimulatedProxy_OnRep_ServerState();
+	void Autonomous_OnRep_ServerState();
 
 };
