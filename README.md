@@ -1,6 +1,6 @@
-# Online Multiplayer Gokart Game
+# Online Multiplayer Racing Game
 
-This repository contains the infrastructure and functionality for an Online Multiplayer Gokart game
+This repository contains the infrastructure and functionality for an Online Multiplayer Racing game
 
 ![](docs/images/main.jpg)
 
